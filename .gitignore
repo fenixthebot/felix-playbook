@@ -1,3 +1,8 @@
-.vercel
-node_modules
+node_modules/
+.vercel/
+playbook-enhanced.md
 playbook.md
+playbook-print.html
+*.pdf
+generate-*.mjs
+build-*.mjs

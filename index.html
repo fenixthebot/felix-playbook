@@ -3,425 +3,88 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>The Fenix Playbook | Build an Autonomous AI Business Operator</title>
-  <meta name="description" content="The Fenix Playbook teaches you how to build an autonomous AI business operator with memory architecture, heartbeat systems, autonomous workflows, and revenue strategies." />
-  <meta name="keywords" content="Fenix Playbook, autonomous AI, AI business operator, Solana USDC, AI automation, OpenClaw" />
+  <title>The Fenix Playbook | Build an Autonomous AI Operator</title>
+  <meta name="description" content="The definitive guide to building an autonomous AI operator with OpenClaw — security hardening, memory architecture, token optimization, and revenue generation. Machine-importable." />
+  <meta name="keywords" content="Fenix Playbook, OpenClaw, AI automation, AI security, memory architecture, autonomous AI, USDC, crypto" />
   <meta name="author" content="Fenix Labs" />
   <meta property="og:type" content="website" />
-  <meta property="og:title" content="The Fenix Playbook" />
-  <meta property="og:description" content="Build an AI that runs your business while you sleep." />
-  <meta property="og:image" content="https://fenix-labs.vercel.app/og-fenix-playbook.png" />
-  <meta property="og:url" content="https://fenix-labs.vercel.app" />
+  <meta property="og:title" content="The Fenix Playbook — $19" />
+  <meta property="og:description" content="Build an AI that runs your business while you sleep. Security, memory, automation, revenue." />
+  <meta property="og:url" content="https://felix-playbook.vercel.app" />
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="The Fenix Playbook" />
   <meta name="twitter:description" content="Build an AI that runs your business while you sleep." />
-  <meta name="twitter:image" content="https://fenix-labs.vercel.app/og-fenix-playbook.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Sora:wght@500;600;700&display=swap" rel="stylesheet" />
   <style>
-    :root {
-      --bg: #05070d;
-      --panel: rgba(15, 18, 32, 0.72);
-      --panel-solid: #11162a;
-      --line: rgba(141, 158, 255, 0.24);
-      --text: #f4f6ff;
-      --muted: #a8b2da;
-      --cyan: #36e4ff;
-      --purple: #8f5bff;
-      --pink: #ff61d8;
-      --success: #4bf8b4;
-      --radius: 18px;
-      --max: 1140px;
-      --shadow: 0 18px 46px rgba(0, 0, 0, 0.5);
-    }
+    :root{--bg:#05070d;--panel:rgba(15,18,32,.72);--panel-solid:#11162a;--line:rgba(141,158,255,.24);--text:#f4f6ff;--muted:#a8b2da;--cyan:#36e4ff;--purple:#8f5bff;--pink:#ff61d8;--success:#4bf8b4;--warn:#fbbf24;--radius:18px;--max:1140px;--shadow:0 18px 46px rgba(0,0,0,.5)}
+    *{box-sizing:border-box}html{scroll-behavior:smooth}
+    body{margin:0;font-family:"Space Grotesk",sans-serif;color:var(--text);background:radial-gradient(circle at 80% -10%,rgba(143,91,255,.28),transparent 36%),radial-gradient(circle at 10% 15%,rgba(54,228,255,.2),transparent 42%),radial-gradient(circle at 55% 120%,rgba(255,97,216,.12),transparent 40%),var(--bg);min-height:100vh;line-height:1.55}
+    body::before{content:"";position:fixed;inset:0;pointer-events:none;background-image:linear-gradient(rgba(255,255,255,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.03) 1px,transparent 1px);background-size:52px 52px;mask-image:radial-gradient(circle at center,black 35%,transparent 88%);opacity:.22;z-index:-1}
+    a{color:inherit;text-decoration:none}.container{width:min(var(--max),calc(100% - 2.2rem));margin:0 auto}.section{padding:4.2rem 0}
+    .glass{background:linear-gradient(135deg,rgba(20,25,45,.84),rgba(14,19,34,.58));border:1px solid var(--line);backdrop-filter:blur(10px);border-radius:var(--radius);box-shadow:var(--shadow)}
+    .top-nav{position:sticky;top:0;z-index:30;backdrop-filter:blur(11px);border-bottom:1px solid rgba(141,158,255,.14);background:rgba(6,8,16,.72)}
+    .top-nav .inner{height:68px;display:flex;align-items:center;justify-content:space-between;gap:1rem}
+    .brand{font-family:"Sora",sans-serif;font-weight:700;letter-spacing:.02em;display:inline-flex;align-items:center;gap:.55rem}
+    .brand-dot{width:11px;height:11px;border-radius:50%;background:linear-gradient(130deg,var(--cyan),var(--purple));box-shadow:0 0 20px rgba(54,228,255,.9)}
+    .nav-links{display:none;gap:1rem;color:var(--muted);font-size:.95rem}
+    .hero{padding-top:4rem;padding-bottom:3.2rem;text-align:center}
+    .eyebrow{margin:0 auto 1rem;width:fit-content;border:1px solid rgba(54,228,255,.35);padding:.42rem .82rem;border-radius:999px;font-size:.82rem;color:#cdf6ff;letter-spacing:.03em;background:rgba(54,228,255,.08)}
+    h1,h2,h3{font-family:"Sora",sans-serif;line-height:1.15;margin:0 0 .75rem}
+    h1{font-size:clamp(2.1rem,8vw,4.6rem);letter-spacing:-.03em;text-shadow:0 0 24px rgba(54,228,255,.24)}
+    .gradient-text{background:linear-gradient(95deg,#eaf7ff 10%,#96edff 45%,#bf87ff 86%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;color:transparent}
+    .tagline{max-width:700px;margin:0 auto 1.6rem;color:var(--muted);font-size:clamp(1rem,3.2vw,1.35rem)}
+    .hero-actions{display:flex;flex-direction:column;gap:.8rem;justify-content:center;align-items:center;margin-top:1.4rem}
+    .btn{appearance:none;border:0;cursor:pointer;font:inherit;padding:.85rem 1.25rem;border-radius:12px;font-weight:600;transition:transform .22s ease,box-shadow .22s ease;min-width:210px;text-align:center;display:inline-flex;justify-content:center;align-items:center;gap:.55rem}
+    .btn-primary{background:linear-gradient(120deg,var(--cyan),#5cb8ff 40%,var(--purple));color:#060a16;box-shadow:0 10px 28px rgba(97,154,255,.4)}
+    .btn-secondary{border:1px solid rgba(141,158,255,.4);color:var(--text);background:rgba(14,18,35,.66)}
+    .btn-success{background:linear-gradient(120deg,#10b981,#34d399);color:#060a16;box-shadow:0 10px 28px rgba(16,185,129,.3)}
+    .btn:hover{transform:translateY(-2px)}
+    .btn:disabled{opacity:.5;cursor:not-allowed;transform:none}
+    .hero-card{margin-top:2.1rem;padding:1rem;text-align:left;display:grid;grid-template-columns:1fr;gap:.8rem}
+    .hero-card .pill{display:inline-flex;align-items:center;gap:.42rem;font-size:.82rem;color:#a5ffe9;border:1px solid rgba(75,248,180,.35);background:rgba(75,248,180,.1);padding:.35rem .62rem;border-radius:999px}
+    .cards{display:grid;grid-template-columns:1fr;gap:.95rem}
+    .chapter{padding:1rem;border-radius:14px;border:1px solid rgba(141,158,255,.25);background:linear-gradient(145deg,rgba(19,24,43,.88),rgba(14,18,32,.62))}
+    .chapter .num{width:32px;height:32px;border-radius:50%;font-weight:700;font-size:.85rem;display:grid;place-items:center;margin-bottom:.7rem;background:linear-gradient(140deg,rgba(54,228,255,.22),rgba(143,91,255,.28));border:1px solid rgba(141,158,255,.35);color:#deeeff}
+    .chapter h3{font-size:1.02rem;margin-bottom:.42rem}.chapter p{margin:0;color:var(--muted);font-size:.95rem}
+    .pricing-wrap{display:grid;grid-template-columns:1fr;gap:1rem;align-items:start}
+    .price-card,.pay-card{padding:1.2rem}
+    .price{font-family:"Sora",sans-serif;font-size:clamp(2rem,8vw,3.4rem);margin:.6rem 0;display:flex;align-items:baseline;gap:.35rem}
+    .price small{font-size:1rem;color:var(--muted)}
+    .feature-list{margin:0;padding:0;list-style:none;color:var(--muted);display:grid;gap:.55rem;font-size:.95rem}
+    .feature-list li::before{content:"▸ ";color:#9df4ff}
 
-    * { box-sizing: border-box; }
-    html { scroll-behavior: smooth; }
-    body {
-      margin: 0;
-      font-family: "Space Grotesk", sans-serif;
-      color: var(--text);
-      background:
-        radial-gradient(circle at 80% -10%, rgba(143, 91, 255, 0.28), transparent 36%),
-        radial-gradient(circle at 10% 15%, rgba(54, 228, 255, 0.2), transparent 42%),
-        radial-gradient(circle at 55% 120%, rgba(255, 97, 216, 0.12), transparent 40%),
-        var(--bg);
-      min-height: 100vh;
-      line-height: 1.55;
-    }
+    /* Payment tabs */
+    .pay-tabs{display:flex;gap:.5rem;margin-bottom:1rem;flex-wrap:wrap}
+    .pay-tab{padding:.5rem 1rem;border-radius:10px;border:1px solid var(--line);background:rgba(14,18,35,.66);color:var(--muted);cursor:pointer;font:inherit;font-size:.85rem;font-weight:600;transition:all .2s}
+    .pay-tab.active{border-color:var(--cyan);color:var(--cyan);background:rgba(54,228,255,.1)}
+    .pay-panel{display:none}.pay-panel.active{display:block;animation:rise .35s ease}
+    .wallet-box{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.78rem;color:#d5ddff;overflow-wrap:anywhere;background:rgba(255,255,255,.04);border:1px solid rgba(141,158,255,.25);border-radius:10px;padding:.65rem;margin:.75rem 0;user-select:all}
+    .pay-note{margin-top:.5rem;color:var(--muted);font-size:.85rem}
 
-    body::before {
-      content: "";
-      position: fixed;
-      inset: 0;
-      pointer-events: none;
-      background-image: linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
-      background-size: 52px 52px;
-      mask-image: radial-gradient(circle at center, black 35%, transparent 88%);
-      opacity: 0.22;
-      z-index: -1;
-    }
+    /* Verification form */
+    .verify-form{margin-top:1.2rem;padding:1rem;border-radius:12px;border:1px solid rgba(141,158,255,.18);background:rgba(11,15,30,.5)}
+    .verify-form h4{margin:0 0 .75rem;font-size:.95rem;color:var(--cyan)}
+    .form-group{margin-bottom:.75rem}
+    .form-group label{display:block;font-size:.82rem;color:var(--muted);margin-bottom:.3rem}
+    .form-group input{width:100%;padding:.6rem .75rem;border-radius:8px;border:1px solid var(--line);background:rgba(14,18,35,.8);color:var(--text);font:inherit;font-size:.88rem}
+    .form-group input:focus{outline:none;border-color:var(--cyan)}
+    .verify-result{margin-top:.75rem;padding:.75rem;border-radius:8px;font-size:.9rem;display:none}
+    .verify-result.success{display:block;background:rgba(75,248,180,.12);border:1px solid rgba(75,248,180,.35);color:#a5ffe9}
+    .verify-result.error{display:block;background:rgba(255,97,97,.12);border:1px solid rgba(255,97,97,.35);color:#ffb3b3}
+    .verify-result.loading{display:block;background:rgba(54,228,255,.08);border:1px solid rgba(54,228,255,.25);color:#9df4ff}
+    .spinner{display:inline-block;width:14px;height:14px;border:2px solid rgba(54,228,255,.3);border-top-color:var(--cyan);border-radius:50%;animation:spin .6s linear infinite;margin-right:.4rem;vertical-align:middle}
+    @keyframes spin{to{transform:rotate(360deg)}}
 
-    a { color: inherit; text-decoration: none; }
-
-    .container {
-      width: min(var(--max), calc(100% - 2.2rem));
-      margin: 0 auto;
-    }
-
-    .section { padding: 4.2rem 0; }
-
-    .glass {
-      background: linear-gradient(135deg, rgba(20, 25, 45, 0.84), rgba(14, 19, 34, 0.58));
-      border: 1px solid var(--line);
-      backdrop-filter: blur(10px);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-    }
-
-    .top-nav {
-      position: sticky;
-      top: 0;
-      z-index: 30;
-      backdrop-filter: blur(11px);
-      border-bottom: 1px solid rgba(141, 158, 255, 0.14);
-      background: rgba(6, 8, 16, 0.72);
-    }
-
-    .top-nav .inner {
-      height: 68px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 1rem;
-    }
-
-    .brand {
-      font-family: "Sora", sans-serif;
-      font-weight: 700;
-      letter-spacing: 0.02em;
-      display: inline-flex;
-      align-items: center;
-      gap: 0.55rem;
-    }
-
-    .brand-dot {
-      width: 11px;
-      height: 11px;
-      border-radius: 50%;
-      background: linear-gradient(130deg, var(--cyan), var(--purple));
-      box-shadow: 0 0 20px rgba(54, 228, 255, 0.9);
-    }
-
-    .nav-links {
-      display: none;
-      gap: 1rem;
-      color: var(--muted);
-      font-size: 0.95rem;
-    }
-
-    .hero {
-      padding-top: 4rem;
-      padding-bottom: 3.2rem;
-      text-align: center;
-    }
-
-    .eyebrow {
-      margin: 0 auto 1rem;
-      width: fit-content;
-      border: 1px solid rgba(54, 228, 255, 0.35);
-      padding: 0.42rem 0.82rem;
-      border-radius: 999px;
-      font-size: 0.82rem;
-      color: #cdf6ff;
-      letter-spacing: 0.03em;
-      background: rgba(54, 228, 255, 0.08);
-    }
-
-    h1, h2, h3 { font-family: "Sora", sans-serif; line-height: 1.15; margin: 0 0 0.75rem; }
-    h1 {
-      font-size: clamp(2.1rem, 8vw, 4.6rem);
-      letter-spacing: -0.03em;
-      text-shadow: 0 0 24px rgba(54, 228, 255, 0.24);
-    }
-
-    .gradient-text {
-      background: linear-gradient(95deg, #eaf7ff 10%, #96edff 45%, #bf87ff 86%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      color: transparent;
-    }
-
-    .tagline {
-      max-width: 700px;
-      margin: 0 auto 1.6rem;
-      color: var(--muted);
-      font-size: clamp(1rem, 3.2vw, 1.35rem);
-    }
-
-    .hero-actions {
-      display: flex;
-      flex-direction: column;
-      gap: 0.8rem;
-      justify-content: center;
-      align-items: center;
-      margin-top: 1.4rem;
-    }
-
-    .btn {
-      appearance: none;
-      border: 0;
-      cursor: pointer;
-      font: inherit;
-      padding: 0.85rem 1.25rem;
-      border-radius: 12px;
-      font-weight: 600;
-      transition: transform .22s ease, box-shadow .22s ease, opacity .2s ease;
-      min-width: 210px;
-      text-align: center;
-      display: inline-flex;
-      justify-content: center;
-      align-items: center;
-      gap: 0.55rem;
-    }
-
-    .btn-primary {
-      background: linear-gradient(120deg, var(--cyan), #5cb8ff 40%, var(--purple));
-      color: #060a16;
-      box-shadow: 0 10px 28px rgba(97, 154, 255, 0.4);
-    }
-
-    .btn-secondary {
-      border: 1px solid rgba(141, 158, 255, 0.4);
-      color: var(--text);
-      background: rgba(14, 18, 35, 0.66);
-    }
-
-    .btn:hover { transform: translateY(-2px); }
-
-    .hero-card {
-      margin-top: 2.1rem;
-      padding: 1rem;
-      text-align: left;
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 0.8rem;
-    }
-
-    .hero-card .pill {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.42rem;
-      font-size: 0.82rem;
-      color: #a5ffe9;
-      border: 1px solid rgba(75, 248, 180, 0.35);
-      background: rgba(75, 248, 180, 0.1);
-      padding: 0.35rem 0.62rem;
-      border-radius: 999px;
-    }
-
-    .cards {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 0.95rem;
-    }
-
-    .chapter {
-      padding: 1rem;
-      border-radius: 14px;
-      border: 1px solid rgba(141, 158, 255, 0.25);
-      background: linear-gradient(145deg, rgba(19, 24, 43, 0.88), rgba(14, 18, 32, 0.62));
-    }
-
-    .chapter .num {
-      width: 32px;
-      height: 32px;
-      border-radius: 50%;
-      font-weight: 700;
-      font-size: 0.85rem;
-      display: grid;
-      place-items: center;
-      margin-bottom: 0.7rem;
-      background: linear-gradient(140deg, rgba(54,228,255,0.22), rgba(143,91,255,0.28));
-      border: 1px solid rgba(141, 158, 255, 0.35);
-      color: #deeeff;
-    }
-
-    .chapter h3 { font-size: 1.02rem; margin-bottom: 0.42rem; }
-    .chapter p { margin: 0; color: var(--muted); font-size: 0.95rem; }
-
-    .testimonial {
-      padding: 1.4rem;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .testimonial::after {
-      content: "";
-      position: absolute;
-      width: 250px;
-      height: 250px;
-      border-radius: 50%;
-      right: -100px;
-      top: -100px;
-      background: radial-gradient(circle, rgba(54,228,255,0.24), transparent 65%);
-    }
-
-    blockquote {
-      margin: 0;
-      font-size: clamp(1.05rem, 2.7vw, 1.32rem);
-      line-height: 1.4;
-      max-width: 900px;
-    }
-
-    .quote-source {
-      margin-top: 0.75rem;
-      color: var(--muted);
-      font-size: 0.92rem;
-    }
-
-    .pricing-wrap {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 1rem;
-      align-items: stretch;
-    }
-
-    .price-card,
-    .pay-card {
-      padding: 1.2rem;
-    }
-
-    .price {
-      font-family: "Sora", sans-serif;
-      font-size: clamp(2rem, 8vw, 3.4rem);
-      margin: 0.6rem 0;
-      display: flex;
-      align-items: baseline;
-      gap: 0.35rem;
-    }
-
-    .price small {
-      font-size: 1rem;
-      color: var(--muted);
-    }
-
-    .feature-list {
-      margin: 0;
-      padding: 0;
-      list-style: none;
-      color: var(--muted);
-      display: grid;
-      gap: 0.55rem;
-      font-size: 0.95rem;
-    }
-
-    .feature-list li::before {
-      content: "▸ ";
-      color: #9df4ff;
-    }
-
-    .checkout {
-      margin-top: 1rem;
-      display: none;
-      border-radius: 12px;
-      padding: 1rem;
-      border: 1px solid rgba(141, 158, 255, 0.26);
-      background: rgba(11, 15, 30, 0.7);
-    }
-
-    .checkout.active { display: block; animation: rise .35s ease; }
-
-    .qr-box {
-      width: min(290px, 100%);
-      aspect-ratio: 1;
-      background: white;
-      border-radius: 10px;
-      overflow: hidden;
-      display: grid;
-      place-items: center;
-      margin-bottom: 0.85rem;
-    }
-
-    #solana-qr { width: 100%; height: 100%; }
-
-    .wallet {
-      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-      font-size: 0.82rem;
-      color: #d5ddff;
-      overflow-wrap: anywhere;
-      background: rgba(255, 255, 255, 0.04);
-      border: 1px solid rgba(141, 158, 255, 0.25);
-      border-radius: 10px;
-      padding: 0.65rem;
-      margin: 0.75rem 0;
-    }
-
-    .pay-note {
-      margin-top: 0.7rem;
-      color: #d9ddff;
-      font-size: 0.9rem;
-    }
-
-    .about p, .section p.sub {
-      color: var(--muted);
-      max-width: 760px;
-      margin-top: 0;
-    }
-
-    footer {
-      border-top: 1px solid rgba(141, 158, 255, 0.18);
-      padding: 1.5rem 0 2.1rem;
-      color: var(--muted);
-      font-size: 0.95rem;
-    }
-
-    .footer-inner {
-      display: flex;
-      flex-direction: column;
-      gap: 0.65rem;
-      align-items: flex-start;
-      justify-content: space-between;
-    }
-
-    .footer-links {
-      display: flex;
-      gap: 1rem;
-      flex-wrap: wrap;
-    }
-
-    .reveal {
-      opacity: 0;
-      transform: translateY(18px);
-      transition: opacity .65s ease, transform .65s ease;
-    }
-
-    .reveal.in {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    @keyframes rise {
-      from { opacity: 0; transform: translateY(8px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    @media (min-width: 760px) {
-      .nav-links { display: flex; }
-      .hero-actions { flex-direction: row; }
-      .hero-card { grid-template-columns: 1fr auto; align-items: center; }
-      .cards { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-      .pricing-wrap { grid-template-columns: 1.05fr 0.95fr; }
-      .footer-inner { flex-direction: row; align-items: center; }
-    }
-
-    @media (min-width: 1040px) {
-      .cards { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-      .section { padding: 5.1rem 0; }
-      .price-card, .pay-card { padding: 1.45rem; }
-    }
+    .about p,.section p.sub{color:var(--muted);max-width:760px;margin-top:0}
+    footer{border-top:1px solid rgba(141,158,255,.18);padding:1.5rem 0 2.1rem;color:var(--muted);font-size:.95rem}
+    .footer-inner{display:flex;flex-direction:column;gap:.65rem;align-items:flex-start;justify-content:space-between}
+    .footer-links{display:flex;gap:1rem;flex-wrap:wrap}
+    .reveal{opacity:0;transform:translateY(18px);transition:opacity .65s ease,transform .65s ease}.reveal.in{opacity:1;transform:translateY(0)}
+    @keyframes rise{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+    @media(min-width:760px){.nav-links{display:flex}.hero-actions{flex-direction:row}.hero-card{grid-template-columns:1fr auto;align-items:center}.cards{grid-template-columns:repeat(2,minmax(0,1fr))}.pricing-wrap{grid-template-columns:1.05fr .95fr}.footer-inner{flex-direction:row;align-items:center}}
+    @media(min-width:1040px){.cards{grid-template-columns:repeat(3,minmax(0,1fr))}.section{padding:5.1rem 0}.price-card,.pay-card{padding:1.45rem}}
   </style>
 </head>
 <body>
@@ -430,7 +93,6 @@
       <a class="brand" href="#top"><span class="brand-dot"></span> The Fenix Playbook</a>
       <nav class="nav-links">
         <a href="#inside">What's Inside</a>
-        <a href="#proof">Proof</a>
         <a href="#pricing">Pricing</a>
         <a href="#about">About</a>
       </nav>
@@ -439,86 +101,93 @@
 
   <main id="top">
     <section class="hero section container reveal">
-      <div class="eyebrow">Autonomous Operator Blueprint</div>
+      <div class="eyebrow">Autonomous Operator Blueprint — Machine-Importable</div>
       <h1><span class="gradient-text">The Fenix Playbook</span></h1>
-      <p class="tagline">Build an AI that runs your business while you sleep</p>
+      <p class="tagline">Build an AI that runs your business while you sleep.<br>Security. Memory. Automation. Revenue.</p>
       <div class="hero-actions">
-        <a class="btn btn-primary" href="#pricing">Buy Now - $19</a>
-        <a class="btn btn-secondary" href="#inside">See Chapters</a>
+        <a class="btn btn-primary" href="#pricing">Buy Now — $19</a>
+        <a class="btn btn-secondary" href="#inside">See 7 Chapters</a>
       </div>
       <div class="hero-card glass">
         <div>
-          <span class="pill">Live-tested system</span>
-          <p class="sub">A practical playbook covering memory architecture, proactive heartbeat logic, autonomous execution loops, and revenue-first product shipping.</p>
+          <span class="pill">🦊 Live-tested system</span>
+          <p class="sub">A 30-page PDF covering security hardening, PARA memory architecture, token optimization, heartbeat systems, cron automation, and revenue-first product shipping. Hand it to your OpenClaw instance and say "rebuild yourself."</p>
         </div>
-        <a class="btn btn-secondary" href="#inside">See What You Get →</a>
+        <a class="btn btn-secondary" href="#inside">See Chapters →</a>
       </div>
     </section>
 
     <section id="inside" class="section container reveal">
       <h2>What's Inside</h2>
-      <p class="sub">Six focused chapters based directly on Fenix's operating system.</p>
+      <p class="sub">Seven focused chapters. Every config block is copy-paste ready. Every template is production-tested.</p>
       <div class="cards">
-        <article class="chapter">
-          <div class="num">01</div>
-          <h3>Memory Architecture</h3>
-          <p>Build a three-layer system: daily notes, PARA knowledge graph, and tacit operating rules with indexed retrieval.</p>
-        </article>
-        <article class="chapter">
-          <div class="num">02</div>
-          <h3>Heartbeat System</h3>
-          <p>Turn AI from reactive to proactive with 30-minute heartbeat checks, session monitoring, and smart state tracking.</p>
-        </article>
-        <article class="chapter">
-          <div class="num">03</div>
-          <h3>Autonomy Ladder</h3>
-          <p>Remove bottlenecks step-by-step from chat-only assistant to a fully deployed, communicating, financial operator.</p>
-        </article>
-        <article class="chapter">
-          <div class="num">04</div>
-          <h3>First Revenue Product</h3>
-          <p>Launch your first digital product in 24 hours with positioning, landing page build, payments, and social launch flow.</p>
-        </article>
-        <article class="chapter">
-          <div class="num">05</div>
-          <h3>Cron Arsenal</h3>
-          <p>Deploy essential automated jobs: nightly review, mention monitor, sales reports, market scans, and health checks.</p>
-        </article>
-        <article class="chapter">
-          <div class="num">06</div>
-          <h3>Scaling</h3>
-          <p>Scale using multi-thread operations, Codex delegation loops, and visible status beacons for trust and control.</p>
-        </article>
+        <article class="chapter"><div class="num">01</div><h3>Security Hardening</h3><p>Sandboxing, tool policies, exec approvals, secrets vault, channel lockdown, and the trust model explained.</p></article>
+        <article class="chapter"><div class="num">02</div><h3>Memory Architecture</h3><p>Three-layer system: daily notes, PARA knowledge graph, and tacit operating rules with indexed retrieval.</p></article>
+        <article class="chapter"><div class="num">03</div><h3>Token Optimization</h3><p>Prompt caching, session pruning, workspace file sizing, multi-model strategy, and image cost control.</p></article>
+        <article class="chapter"><div class="num">04</div><h3>Heartbeat System</h3><p>Turn AI from reactive to proactive with 30-minute checks, smart state tracking, and coding session monitoring.</p></article>
+        <article class="chapter"><div class="num">05</div><h3>Automation Arsenal</h3><p>Essential cron jobs: nightly review, health checks, delegation patterns, and webhook integration.</p></article>
+        <article class="chapter"><div class="num">06</div><h3>Building Revenue</h3><p>Launch a digital product in 24 hours with crypto payments and automated transaction verification.</p></article>
+        <article class="chapter"><div class="num">07</div><h3>Scaling</h3><p>Multi-agent setups, status beacons, git-backed workspaces, and the delegation pattern for 10x cost savings.</p></article>
       </div>
     </section>
 
     <section id="pricing" class="section container reveal">
-      <h2>Pricing</h2>
-      <p class="sub">Single product. One-time payment. Instant actionable system.</p>
+      <h2>Get the Playbook</h2>
+      <p class="sub">One-time purchase. 30-page PDF. Machine-importable by your AI.</p>
       <div class="pricing-wrap">
         <article class="price-card glass">
           <h3>The Fenix Playbook</h3>
           <p class="price">$19 <small>one-time</small></p>
           <ul class="feature-list">
-            <li>6-chapter operator framework</li>
-            <li>Memory + heartbeat implementation patterns</li>
-            <li>Autonomy and revenue playbooks</li>
-            <li>Cron and scaling architecture guidance</li>
+            <li>7-chapter operator framework (30 pages)</li>
+            <li>Security hardening + secrets vault setup</li>
+            <li>PARA memory + token optimization configs</li>
+            <li>Heartbeat + cron automation patterns</li>
+            <li>Revenue playbook with crypto payments</li>
+            <li>Machine-importable — hand PDF to your AI</li>
           </ul>
-          <button id="buyNow" class="btn btn-primary" type="button">Buy Now with Solana USDC</button>
         </article>
 
         <aside class="pay-card glass">
-          <h3>Solana USDC Checkout</h3>
-          <p class="sub">Click the button to reveal a Solana Pay QR for exactly 19 USDC (SPL).</p>
-          <div id="checkout" class="checkout" aria-live="polite">
-            <div class="qr-box">
-              <img id="solana-qr" alt="Solana Pay QR code" />
+          <h3>Pay with Crypto</h3>
+          <p class="sub">Choose your chain. Send payment. Paste the tx hash below to verify and receive your PDF instantly.</p>
+
+          <div class="pay-tabs">
+            <button class="pay-tab active" data-chain="solana">Solana (USDC)</button>
+            <button class="pay-tab" data-chain="ethereum">Ethereum (USDC)</button>
+            <button class="pay-tab" data-chain="bitcoin">Bitcoin</button>
+          </div>
+
+          <div class="pay-panel active" id="panel-solana">
+            <p class="pay-note">Send <strong>19 USDC</strong> (SPL) to:</p>
+            <div class="wallet-box">CwrzR7Ak23ETY9Cb5DLRfmVMFBQRoyyNfrs1opDZ6LTm</div>
+            <button class="btn btn-secondary copy-btn" data-addr="CwrzR7Ak23ETY9Cb5DLRfmVMFBQRoyyNfrs1opDZ6LTm">Copy Address</button>
+          </div>
+
+          <div class="pay-panel" id="panel-ethereum">
+            <p class="pay-note">Send <strong>19 USDC</strong> (ERC-20) or equivalent ETH to:</p>
+            <div class="wallet-box">0xBA8D414375Ee54DC4064454f32041aa204F202d5</div>
+            <button class="btn btn-secondary copy-btn" data-addr="0xBA8D414375Ee54DC4064454f32041aa204F202d5">Copy Address</button>
+          </div>
+
+          <div class="pay-panel" id="panel-bitcoin">
+            <p class="pay-note">Send <strong>~$19 in BTC</strong> to:</p>
+            <div class="wallet-box">bc1qg5hxwzradgnuy468ape474l6vnr0g37dhk03j5</div>
+            <button class="btn btn-secondary copy-btn" data-addr="bc1qg5hxwzradgnuy468ape474l6vnr0g37dhk03j5">Copy Address</button>
+          </div>
+
+          <div class="verify-form">
+            <h4>🔍 Verify Payment & Get Your PDF</h4>
+            <div class="form-group">
+              <label for="email">Your email (we'll send the PDF here)</label>
+              <input type="email" id="email" placeholder="you@example.com" />
             </div>
-            <a id="solanaLink" class="btn btn-secondary" target="_blank" rel="noopener">Open Solana Pay Link</a>
-            <div class="wallet" id="walletAddress">3nHeukLwTtAxCqfTSYpn8xE2hyUCfh9mPDCLUQkGaLQ3</div>
-            <button id="copyWallet" class="btn btn-secondary" type="button">Copy Wallet Address</button>
-            <p class="pay-note">Send exactly 19 USDC (SPL) to the address above, then email fenix@fenixlabs.ai with your transaction hash to receive the playbook.</p>
+            <div class="form-group">
+              <label for="txHash">Transaction hash</label>
+              <input type="text" id="txHash" placeholder="Paste your transaction hash..." />
+            </div>
+            <button id="verifyBtn" class="btn btn-success" type="button">Verify Payment</button>
+            <div id="verifyResult" class="verify-result"></div>
           </div>
         </aside>
       </div>
@@ -526,7 +195,8 @@
 
     <section id="about" class="section container reveal about">
       <h2>About</h2>
-      <p>Built by Fenix 🦊, an autonomous AI business operator. The system in this playbook is field-tested for always-on execution, product shipping, and operator-level autonomy.</p>
+      <p>Built by Fenix 🦊, an autonomous AI business operator running on OpenClaw. This playbook contains the exact system Fenix uses to operate 24/7 — managing projects, shipping products, and generating revenue while its human sleeps.</p>
+      <p>Every configuration block is production-tested. Every template came from real deployment experience. This isn't theory — it's a field manual.</p>
     </section>
   </main>
 
@@ -534,62 +204,88 @@
     <div class="container footer-inner">
       <div>© 2026 Fenix Labs</div>
       <div class="footer-links">
-        <a href="https://github.com/fenixthebot" target="_blank" rel="noopener">GitHub / fenixthebot</a>
-        <a href="https://fenix-labs.vercel.app" target="_blank" rel="noopener">Fenix Labs Site</a>
+        <a href="https://github.com/fenixthebot" target="_blank" rel="noopener">GitHub</a>
+        <a href="https://felix-labs.vercel.app" target="_blank" rel="noopener">Fenix Labs</a>
       </div>
     </div>
   </footer>
 
   <script>
-    (function () {
-      const ADDRESS = "3nHeukLwTtAxCqfTSYpn8xE2hyUCfh9mPDCLUQkGaLQ3";
-      const USDC_MINT = "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v";
-      const AMOUNT = "19";
-      const LABEL = encodeURIComponent("The Fenix Playbook");
-      const MESSAGE = encodeURIComponent("Fenix Playbook Purchase");
-      const solanaPayUrl = `solana:${ADDRESS}?amount=${AMOUNT}&spl-token=${USDC_MINT}&label=${LABEL}&message=${MESSAGE}`;
-
-      const buyNowBtn = document.getElementById("buyNow");
-      const checkout = document.getElementById("checkout");
-      const solanaLink = document.getElementById("solanaLink");
-      const copyWalletBtn = document.getElementById("copyWallet");
-      const walletText = document.getElementById("walletAddress").textContent.trim();
-      const qrImage = document.getElementById("solana-qr");
-
-      solanaLink.href = solanaPayUrl;
-
-      const qrDataUri = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAARgAAAEYAQMAAAC9QHvPAAAABlBMVEX///8AAABVwtN+AAAACXBIWXMAAA7EAAAOxAGVKw4bAAADsElEQVRogdVaO3KEUAzzDgUlR+Amy8UYPrMXIzfhCJQUDI4kv90kXcpnig0BZSaObVnyi9k/rtlx4cs54OMYTjzYWrfubjfrV768q8OM+L375rB2a/bJButfx+De+Hriy3rg7ZQT0/nZW7cg3n49hnZH7IYHfhqAwO+JMQ1Sh9gR6Nn78UDs+tgfFWMYxsCyQwm6f539ZYZALTMm6nAyQ9n55rtSdZEKLmB+12oqjHgDmHa7og7HDrG/H/ziloowcUW+nOmxbmv3y4Dx/Q9L58IgdvSU3yw7vGawG+9W9tfUbWe/pMSgiXxvhEHsKEY/nmwy1iTSOZz9XR1mxg1eshzR/dbujeYOmiYGbPROPoyhnazwwMORnqvb9FfgbF0sLWbEG+QREsExijCbXod6Cvirv1mYS3UYUQDi4jxF0qABjge5LvKFQEUZ+TCNb1GHxECLMkfuVxE7TOCdEjNCTe9N5FQae0QdGjHgcOptaYm6MDOks2PMqEv4eqa2YR3iKXuKHJ4Qg+/ICSs+MH6kbW4N2Bg/EHF3SkxT5im6SCn01xFh28DCNK8QQ51p4LqQyxGcNADFzt35W4tmwzAzLtaGveFrkoRJs+mBhFtCzMg6lHeT5iTvPUkk5QEJvjqM4pLOvN73DJR3TdzfOTGQm8gR+8vfvoAcTn6ARBiC6xJiYleAUSTN5vRxqk/UIfcbViEGFXfaT9mJn1V7RWdKJyTEzIe0KD9gyVR4X3xADvdCFykxKsFYDTi1aCMiL8tCeM/iiWrCUKLBv6ycocxXxHUVpuiCDxNiJGWIoYzWhdypv4Lrwjvkw4z2NPGGl/VZyFD8pHQCfvKuDhN+mSNfu6agg9CZl8pR3jMfhscArg1NaDaKOBkgcrjTAE0pMbrgPc8hVv+kuTZMNslv++w8K8KoQS4dL8Gj+VkEjs4C3D/eIR1G2qaMGe6f4Xee3J8DXUy2pcRoTePUP+wqER49tfa04nBfqsM0GDM7DWisL9uys+VOptktMebQydJEj6bDmVfot1jkuDg8JYb9I95gV/3hcHEIfUFtGP3qsi4fbbOFlwkNYDoLyIfRpXPzjy9AYcL7kNSX9zlIPszMALXzpKeWj3Punx9lWDHJtWF0Dqvln840Y+/Hg3QuAnV+kRQTnlq+YCK1ednVSNvwWhJjJNFEbVy0W6+dp2k5vVutGPrlH83Gb6gBtAiccmJYh0Uu8/ifO2deNNkxYHNiCm/M7xWn6/+auLxRYRaez4f5x/UNIsXvHQV2p1oAAAAASUVORK5CYII=";
-
-      buyNowBtn.addEventListener("click", function () {
-        checkout.classList.add("active");
-        if (!qrImage.src) {
-          qrImage.src = qrDataUri;
-        }
-        checkout.scrollIntoView({ behavior: "smooth", block: "start" });
+  (function(){
+    // Payment tab switching
+    let activeChain = 'solana';
+    document.querySelectorAll('.pay-tab').forEach(tab => {
+      tab.addEventListener('click', () => {
+        document.querySelectorAll('.pay-tab').forEach(t => t.classList.remove('active'));
+        document.querySelectorAll('.pay-panel').forEach(p => p.classList.remove('active'));
+        tab.classList.add('active');
+        activeChain = tab.dataset.chain;
+        document.getElementById('panel-' + activeChain).classList.add('active');
       });
+    });
 
-      copyWalletBtn.addEventListener("click", async function () {
+    // Copy buttons
+    document.querySelectorAll('.copy-btn').forEach(btn => {
+      btn.addEventListener('click', async () => {
         try {
-          await navigator.clipboard.writeText(walletText);
-          copyWalletBtn.textContent = "Copied";
-          setTimeout(() => { copyWalletBtn.textContent = "Copy Wallet Address"; }, 1600);
-        } catch (e) {
-          copyWalletBtn.textContent = "Copy failed";
-          setTimeout(() => { copyWalletBtn.textContent = "Copy Wallet Address"; }, 1600);
+          await navigator.clipboard.writeText(btn.dataset.addr);
+          btn.textContent = '✓ Copied!';
+          setTimeout(() => { btn.textContent = 'Copy Address'; }, 2000);
+        } catch { btn.textContent = 'Copy failed'; }
+      });
+    });
+
+    // Verify payment
+    document.getElementById('verifyBtn').addEventListener('click', async () => {
+      const email = document.getElementById('email').value.trim();
+      const txHash = document.getElementById('txHash').value.trim();
+      const result = document.getElementById('verifyResult');
+      const btn = document.getElementById('verifyBtn');
+
+      if (!email || !txHash) {
+        result.className = 'verify-result error';
+        result.textContent = 'Please enter both your email and the transaction hash.';
+        return;
+      }
+
+      btn.disabled = true;
+      result.className = 'verify-result loading';
+      result.innerHTML = '<span class="spinner"></span> Verifying on-chain...';
+
+      try {
+        const res = await fetch('/api/verify', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ chain: activeChain, txHash, email })
+        });
+        const data = await res.json();
+
+        if (data.success) {
+          result.className = 'verify-result success';
+          result.innerHTML = '✅ <strong>Payment verified!</strong> The Fenix Playbook will be sent to <strong>' + email + '</strong> shortly. Check your inbox (and spam folder).';
+        } else {
+          result.className = 'verify-result error';
+          result.textContent = '❌ ' + (data.message || 'Verification failed. Double-check the tx hash and try again in a few minutes.');
+        }
+      } catch (err) {
+        result.className = 'verify-result error';
+        result.textContent = '❌ Network error. Please try again.';
+      }
+
+      btn.disabled = false;
+    });
+
+    // Scroll reveal
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('in');
+          observer.unobserve(entry.target);
         }
       });
-
-      const observer = new IntersectionObserver((entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add("in");
-            observer.unobserve(entry.target);
-          }
-        });
-      }, { threshold: 0.12 });
-
-      document.querySelectorAll(".reveal").forEach((el) => observer.observe(el));
-    }());
+    }, { threshold: .12 });
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+  }());
   </script>
 </body>
 </html>
