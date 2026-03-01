@@ -1,9 +1,6 @@
-// Serverless function for payment verification
-// Vercel Edge Function: /api/verify
+// Vercel Serverless Function: /api/verify
 // Customer submits: { chain, txHash, email }
-// We verify on-chain, then trigger PDF delivery
-
-export const config = { runtime: 'edge' };
+// We verify on-chain, then confirm for PDF delivery
 
 const WALLETS = {
   solana: 'CwrzR7Ak23ETY9Cb5DLRfmVMFBQRoyyNfrs1opDZ6LTm',
@@ -14,7 +11,7 @@ const WALLETS = {
 const USDC_MINT_SOL = 'EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v';
 const USDC_CONTRACT_ETH = '0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48';
 const PRICE_USDC = 19;
-const PRICE_BTC = 0.00020; // ~$19 at ~$95k BTC
+const PRICE_BTC = 0.00019;
 
 async function verifySolana(txHash) {
   const rpc = 'https://api.mainnet-beta.solana.com';
@@ -27,53 +24,39 @@ async function verifySolana(txHash) {
     })
   });
   const data = await res.json();
-  if (!data.result) return { valid: false, reason: 'Transaction not found' };
+  if (!data.result) return { valid: false, reason: 'Transaction not found. It may still be processing — try again in a minute.' };
+  if (data.result.meta?.err) return { valid: false, reason: 'Transaction failed on-chain.' };
 
-  const tx = data.result;
-  if (tx.meta?.err) return { valid: false, reason: 'Transaction failed on-chain' };
-
-  // Check for USDC SPL transfer to our wallet
-  const innerInstructions = [
-    ...(tx.transaction?.message?.instructions || []),
-    ...(tx.meta?.innerInstructions?.flatMap(i => i.instructions) || [])
+  const allIx = [
+    ...(data.result.transaction?.message?.instructions || []),
+    ...(data.result.meta?.innerInstructions?.flatMap(i => i.instructions) || [])
   ];
 
-  for (const ix of innerInstructions) {
+  for (const ix of allIx) {
     const parsed = ix?.parsed;
     if (!parsed) continue;
     if (parsed.type === 'transferChecked' || parsed.type === 'transfer') {
       const info = parsed.info;
-      if (info.mint === USDC_MINT_SOL || info.tokenAmount?.uiAmount >= PRICE_USDC) {
-        // Check destination matches our wallet's token account
-        // For simplicity, verify amount >= PRICE_USDC
-        const amount = info.tokenAmount?.uiAmount || (parseInt(info.amount) / 1e6);
-        if (amount >= PRICE_USDC) {
-          return { valid: true, amount, chain: 'solana' };
-        }
+      const amount = info.tokenAmount?.uiAmount || (parseInt(info.amount || '0') / 1e6);
+      if (amount >= PRICE_USDC * 0.95) {
+        return { valid: true, amount, chain: 'solana' };
       }
     }
   }
-
-  // Also check SOL transfer (someone might send SOL worth $19+)
-  return { valid: false, reason: 'No qualifying USDC transfer found in transaction' };
+  return { valid: false, reason: 'No qualifying USDC transfer found in this transaction.' };
 }
 
 async function verifyEthereum(txHash) {
   const rpc = 'https://eth.llamarpc.com';
-  
-  // Get transaction receipt
   const res = await fetch(rpc, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      jsonrpc: '2.0', id: 1, method: 'eth_getTransactionReceipt', params: [txHash]
-    })
+    body: JSON.stringify({ jsonrpc: '2.0', id: 1, method: 'eth_getTransactionReceipt', params: [txHash] })
   });
   const data = await res.json();
-  if (!data.result) return { valid: false, reason: 'Transaction not found' };
-  if (data.result.status !== '0x1') return { valid: false, reason: 'Transaction reverted' };
+  if (!data.result) return { valid: false, reason: 'Transaction not found. It may still be confirming.' };
+  if (data.result.status !== '0x1') return { valid: false, reason: 'Transaction reverted on-chain.' };
 
-  // Check logs for USDC Transfer event to our address
   const transferTopic = '0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef';
   const ourAddr = WALLETS.ethereum.toLowerCase().slice(2).padStart(64, '0');
 
@@ -82,83 +65,71 @@ async function verifyEthereum(txHash) {
         log.topics[0] === transferTopic &&
         log.topics[2]?.toLowerCase() === '0x' + ourAddr) {
       const amount = parseInt(log.data, 16) / 1e6;
-      if (amount >= PRICE_USDC) {
+      if (amount >= PRICE_USDC * 0.95) {
         return { valid: true, amount, chain: 'ethereum' };
       }
     }
   }
 
-  // Check if it's a direct ETH transfer to our address
   const txRes = await fetch(rpc, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      jsonrpc: '2.0', id: 1, method: 'eth_getTransactionByHash', params: [txHash]
-    })
+    body: JSON.stringify({ jsonrpc: '2.0', id: 1, method: 'eth_getTransactionByHash', params: [txHash] })
   });
   const txData = await txRes.json();
   if (txData.result?.to?.toLowerCase() === WALLETS.ethereum.toLowerCase()) {
     const ethValue = parseInt(txData.result.value, 16) / 1e18;
-    if (ethValue > 0) {
+    if (ethValue > 0.005) {
       return { valid: true, amount: ethValue, chain: 'ethereum', token: 'ETH' };
     }
   }
 
-  return { valid: false, reason: 'No qualifying transfer to our wallet found' };
+  return { valid: false, reason: 'No qualifying transfer to our wallet found.' };
 }
 
 async function verifyBitcoin(txHash) {
   try {
     const res = await fetch(`https://blockstream.info/api/tx/${txHash}`);
-    if (!res.ok) return { valid: false, reason: 'Transaction not found' };
+    if (!res.ok) return { valid: false, reason: 'Transaction not found on Bitcoin network.' };
     const tx = await res.json();
-
-    if (!tx.status?.confirmed) return { valid: false, reason: 'Transaction not yet confirmed' };
+    if (!tx.status?.confirmed) return { valid: false, reason: 'Transaction not yet confirmed. Please wait for at least 1 confirmation.' };
 
     for (const vout of tx.vout) {
       if (vout.scriptpubkey_address === WALLETS.bitcoin) {
         const btcAmount = vout.value / 1e8;
-        if (btcAmount >= PRICE_BTC * 0.95) { // 5% tolerance for BTC price fluctuation
+        if (btcAmount >= PRICE_BTC * 0.9) {
           return { valid: true, amount: btcAmount, chain: 'bitcoin' };
         }
       }
     }
-    return { valid: false, reason: 'No output to our Bitcoin address found' };
+    return { valid: false, reason: 'No output to our Bitcoin address found in this transaction.' };
   } catch {
-    return { valid: false, reason: 'Failed to query Bitcoin network' };
+    return { valid: false, reason: 'Failed to query Bitcoin network. Try again shortly.' };
   }
 }
 
-export default async function handler(req) {
-  if (req.method === 'OPTIONS') {
-    return new Response(null, {
-      headers: {
-        'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Methods': 'POST',
-        'Access-Control-Allow-Headers': 'Content-Type',
-      }
-    });
-  }
+module.exports = async function handler(req, res) {
+  // CORS
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
 
-  if (req.method !== 'POST') {
-    return new Response(JSON.stringify({ error: 'POST only' }), { status: 405 });
-  }
+  if (req.method === 'OPTIONS') return res.status(200).end();
+  if (req.method !== 'POST') return res.status(405).json({ error: 'POST only' });
 
   try {
-    const { chain, txHash, email } = await req.json();
+    const { chain, txHash, email } = req.body;
 
     if (!chain || !txHash || !email) {
-      return new Response(JSON.stringify({ error: 'Missing chain, txHash, or email' }), {
-        status: 400,
-        headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' }
-      });
+      return res.status(400).json({ error: 'Missing chain, txHash, or email' });
     }
 
     if (!['solana', 'ethereum', 'bitcoin'].includes(chain)) {
-      return new Response(JSON.stringify({ error: 'Unsupported chain' }), {
-        status: 400,
-        headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' }
-      });
+      return res.status(400).json({ error: 'Unsupported chain. Use: solana, ethereum, or bitcoin' });
+    }
+
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      return res.status(400).json({ error: 'Invalid email format' });
     }
 
     let result;
@@ -169,33 +140,21 @@ export default async function handler(req) {
     }
 
     if (result.valid) {
-      // Store order for fulfillment
-      // In production, this would trigger an email with the PDF
-      // For now, we log and return success + download URL
-      return new Response(JSON.stringify({
+      return res.status(200).json({
         success: true,
-        message: 'Payment verified! Check your email for the playbook.',
+        message: 'Payment verified! Your playbook will be sent to ' + email + ' shortly.',
         chain: result.chain,
         amount: result.amount,
-        email: email,
-        downloadReady: true
-      }), {
-        status: 200,
-        headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' }
+        email,
+        verifiedAt: new Date().toISOString()
       });
     } else {
-      return new Response(JSON.stringify({
+      return res.status(400).json({
         success: false,
         message: result.reason
-      }), {
-        status: 400,
-        headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' }
       });
     }
   } catch (err) {
-    return new Response(JSON.stringify({ error: 'Server error', details: err.message }), {
-      status: 500,
-      headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' }
-    });
+    return res.status(500).json({ error: 'Server error', details: err.message });
   }
-}
+};
